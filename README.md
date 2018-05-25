@@ -1,6 +1,6 @@
 # react-django-demo
 
-A small project to demonstrate basic understanding of React and Django.
+A simple project to demonstrate basic understanding of React and Django.
 
 Install dependences, cd to the directory that contains requirement.txt
 ```bash
@@ -12,10 +12,11 @@ Install corsheaders to deal with cross origin problem in localhost
 pip install django-cors-headers
 ```
 
-Run Django
+Run Django (I used python3)
 ```bash
 python3 manage.py runserver
 ```
+Please make sure it is served at http://127.0.0.1:8000/
 
 To open react
 ```bash
