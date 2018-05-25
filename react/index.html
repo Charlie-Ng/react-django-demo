@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <!-- BABEL LIBRARY -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+  <title>FriendLy</title>
+</head>
+<body>
+  <div id="app">React has not rendered yet</div>
+
+  <script type="text/babel">
+
+    class FriendLy extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          people: []
+        };
+      }
+
+      // fetch data
+      componentDidMount() {
+        fetch('http://127.0.0.1:8000/api/user-item/')
+        .then(response => response.json())
+        .then(responseData => {
+          this.setState({
+            people: JSON.parse(responseData.an_apiview)
+          });
+        })
+        .catch(error => {
+          console.log("Error fetching data", error);
+        });
+      }
+
+      render() {
+        let people = this.state.people;
+        let friendlyStyle = {
+          display: "inline-block",
+          margin: 20,
+          height: 350,
+          width: 250,
+          padding: 0,
+          backgroundColor: "#FFFFFF",
+          WebkitFilter: "drop-shadow(0px 0px 5px #555)",
+          filter: "drop-shadow(0px 0px 5px #555)"
+        };
+        return(
+          <div>
+            {people.map(function(person) {
+              return(
+                <div style={friendlyStyle}>
+                  <Avatar img={person.fields.img}/>
+                  <UserName name={person.fields.name}/>
+                  <GetConnected/>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+    }
+
+    // Avatar Component
+    function Avatar(props) {
+      var AvatarStyle = {
+        marginLeft: 50,
+        marginTop: 20,
+        height: 150,
+        width: 150,
+        borderRadius: "50%"
+      }
+      return(
+        <img style={AvatarStyle} src={props.img} altr="profile pic"/>
+      );
+    }
+
+    // UserName Component
+    function UserName(props) {
+      var nameStyle = {
+        fontSize: 24,
+        textAlign: "center",
+        fontFamily: "Arial, Helvetica, sans-serif",
+        margin: 20
+      }
+      return(
+        <h1 style={nameStyle}>{props.name}</h1>
+      );
+    }
+
+    // GetConnected Complex Components
+    function GetConnected() {
+      var getConnectedStyle = {
+        marginLeft: 30
+      }
+      return(
+        <div style={getConnectedStyle}>
+          <Like/>
+          <Share/>
+          <Add/>
+        </div>
+      );
+    }
+
+    var iconStyle = {
+      margin: 20
+    }
+
+    // Like Component
+    function Like(){
+      return(
+        <i style={iconStyle} className="fa fa-thumbs-o-up" aria-hidden="true"></i>
+      );
+    }
+
+    // Share Component
+    function Share(){
+      return(
+        <i style={iconStyle} className="fa fa-share" aria-hidden="true"></i>
+      );
+    }
+
+    // Add Component
+    function Add(){
+      return(
+        <i style={iconStyle} className="fa fa-users" aria-hidden="true"></i>
+
+      );
+    }
+
+    ReactDOM.render(
+      <div>
+        <FriendLy/>
+      </div>,
+      document.getElementById("app")
+    )
+  </script>
+</body>
+</html>
